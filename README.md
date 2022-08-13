@@ -1,3 +1,5 @@
 # et-DentedCode
-Branch API contains the backend
-Branch client contains the Frontend
+
+Branch API contains the backend.\
+
+Branch client contains the Frontend.\
