@@ -1,7 +1,20 @@
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
+import { fetchDataAction, deleteDataAction } from "../../pages/transaction/transactionAction";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 
-export const TransactionTable = ({ transactions, handleOnDelete }) => {
+
+export const TransactionTable = () => {
+  const dispatch = useDispatch();
+  const { transactions } = useSelector((state) => state.transactions);
+
+  useEffect(() => {
+    dispatch(fetchDataAction());
+  }, []);
+
+
+
   const total = transactions.reduce((acc, { type, amount }) => {
     return type === "income" ? acc + amount : acc - amount;
   }, 0);
@@ -34,7 +47,7 @@ export const TransactionTable = ({ transactions, handleOnDelete }) => {
                 <td>
                   <Button
                     variant="danger"
-                    onClick={() => handleOnDelete(item._id)}
+                    onClick={() => dispatch(deleteDataAction(item._id))}
                   >
                     Delete
                   </Button>

@@ -1,12 +1,24 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 import { MainLayout } from "../components/layout/MainLayout";
 import { loginUser } from "../helpers/axiosHelper";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAction } from "./userState/userAction";
 
-const Login = ({ setLogedIn }) => {
+
+const Login = () => {
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.user)
+
+  useEffect(() => {
+    user._id && navigate("/dashboard");
+  }, [user]);
+
+
   const emailRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
@@ -15,14 +27,15 @@ const Login = ({ setLogedIn }) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const { status, message, user } = await loginUser({ email, password });
-    toast[status](message);
+    // const { status, message, user } = await loginUser({ email, password });
+    // toast[status](message);
+    dispatch(loginAction({ email, password }));
 
-    if (status === "success") {
-      window.sessionStorage.setItem("user", JSON.stringify(user));
-      setLogedIn(true);
-      navigate("/dashboard");
-    }
+    // if (status === "success") {
+    //   window.sessionStorage.setItem("user", JSON.stringify(user));
+    //   setLogedIn(true);
+    //   navigate("/dashboard");
+    // }
   };
   return (
     <MainLayout>

@@ -8,17 +8,16 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 function App() {
-  const [isLogedIn, setLogedIn] = useState(false);
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login setLogedIn={setLogedIn} />} />
-          <Route path="/login" element={<Login setLogedIn={setLogedIn} />} />
+          <Route path="/" element={<Login  />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route
             path="/dashboard"
-            element={<Dashboard isLogedIn={isLogedIn} />}
+            element={<Dashboard />}
           />
         </Routes>
       </BrowserRouter>

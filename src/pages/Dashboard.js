@@ -9,53 +9,30 @@ import {
   postTransaction,
 } from "../helpers/axiosHelper";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const Dashboard = ({ isLogedIn }) => {
+
+const Dashboard = () => {
+  const navigate=useNavigate();
   const [transactions, setTransactions] = useState([]);
+  const { user } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  useEffect (()=>{
+    !user._id && navigate('/');
 
-  const fetchData = async () => {
-    const { status, message, trans } = await getTransactions();
-    status === "success" && setTransactions(trans);
-  };
-
-  const postData = async (form) => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-
-    const userId = user._id;
-    const { status, message } = await postTransaction({ ...form, userId });
-    toast[status](message);
-
-    status === "success" && fetchData();
-  };
-
-  const handleOnDelete = async (_id) => {
-    if (!window.confirm("Are you sure you want to delet it?")) {
-      return;
-    }
-    const { status, message } = await deleteTransaction(_id);
-    console.log(status, message);
-    toast[status](message);
-
-    status === "success" && fetchData();
-  };
+  },[user])
   return (
-    <MainLayout isLogedIn={isLogedIn}>
+    <MainLayout   >
       <Row>
         <h3 className="mt-4">Dashboard</h3>
         <hr />
         {/* form section */}
-        <TransactionForm postData={postData} />
+        <TransactionForm />
         <hr className="mt-5" />
 
         {/* table section */}
-        <TransactionTable
-          transactions={transactions}
-          handleOnDelete={handleOnDelete}
-        />
+        <TransactionTable />
       </Row>
     </MainLayout>
   );
